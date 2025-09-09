@@ -1,9 +1,5 @@
 import { apiUrls } from "@/constants/apiUrls";
-import {
-  IMovieList,
-  IMovieListResponse,
-  IPageParams,
-} from "@/resources/Movies/interface";
+import { IMovieList, IPageParams } from "@/resources/Movies/interface";
 import fetchWrapper from "@/utils/fetchWrapper";
 
 export const getMovies = async (

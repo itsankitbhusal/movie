@@ -1,7 +1,6 @@
 "use client";
 import AppImage from "@/components/AppImage";
 import Link from "next/link";
-import React, { useState } from "react";
 
 interface IProps {
   title?: string;
@@ -21,7 +20,7 @@ const MovieCard = ({
   slug,
 }: IProps) => {
   return (
-    <Link href={`/movies/${slug}`} className=" w-full  max-w-[20rem] sm:w-full border rounded-sm border-gray-100">
+    <Link href={`/movies/${slug}`} className=" w-full  sm:max-w-[20rem] sm:w-full border rounded-sm border-gray-100">
       <div className=" w-full relative ">
         <div className=" w-full h-[calc(100%-4rem)] overflow-hidden group cursor-pointer">
           <div className=" w-full">
@@ -45,7 +44,7 @@ const MovieCard = ({
               {genres && genres?.length > 0
                 ? genres?.map((genre) => {
                     return (
-                      <div>
+                      <div key={genre}>
                         <p className=" font-bold">{genre}</p>
                       </div>
                     );

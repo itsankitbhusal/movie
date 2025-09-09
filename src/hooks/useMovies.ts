@@ -8,7 +8,7 @@ export const movieKeys = {
 
 export const useGetMovies = (pageParams?: IPageParams) => {
   return useQuery({
-    queryKey: [movieKeys.GET_MOVIE_LIST],
+    queryKey: [movieKeys.GET_MOVIE_LIST, pageParams],
     queryFn: () => API.Movies.getMovies(pageParams),
   });
 };
