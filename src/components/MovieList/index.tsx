@@ -5,7 +5,7 @@ import MovieListPagination from "@/components/MovieList/components/MovieListPagi
 import MovieLoading from "@/components/MovieList/components/MovieLoading";
 import MovieNotFound from "@/components/MovieList/components/MovieNotFound";
 import MovieSearch from "@/components/MovieList/components/MovieSearch";
-import { useGetMovies } from "@/hooks/useMovies";
+import { useGetMovies } from "@/resources/Movies/useMovies";
 import { IPageParams } from "@/resources/Movies/interface";
 import logger from "@/utils/logger";
 import Link from "next/link";
@@ -113,9 +113,9 @@ const MovieList = ({
               <Link
                 href={`/movies/${dynamicSlug}`}
                 className=" w-full border border-gray-100 rounded-sm"
+                key={movie.id}
               >
                 <MovieCard
-                  key={movie.id}
                   coverImage={movie.medium_cover_image}
                   genres={movie.genres}
                   rating={movie.rating}

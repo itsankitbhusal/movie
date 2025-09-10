@@ -1,6 +1,5 @@
 "use client";
 import AppImage from "@/components/AppImage";
-import Link from "next/link";
 
 interface IProps {
   title?: string;
