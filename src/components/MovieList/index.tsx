@@ -8,6 +8,7 @@ import MovieSearch from "@/components/MovieList/components/MovieSearch";
 import { useGetMovies } from "@/hooks/useMovies";
 import { IPageParams } from "@/resources/Movies/interface";
 import logger from "@/utils/logger";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { FormEvent, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
@@ -34,7 +35,7 @@ const MovieList = ({
     error: moviesError,
   } = useGetMovies({
     ...(genre && { genre }),
-    ...(limit && { limit }),
+    ...(limit ? { limit } : { limit: 10 }),
     ...(minimum_rating && { minimum_rating }),
     ...(order_by && { order_by }),
     ...(page && { page }),
@@ -87,7 +88,7 @@ const MovieList = ({
   };
 
   const pageCount = movies?.movie_count
-    ? Math.ceil(movies.movie_count / (limit || 20))
+    ? Math.ceil(movies.movie_count / (limit || 10))
     : 0;
 
   const pageRange = isMobile ? 2 : isTablet ? 3 : 5;
@@ -103,17 +104,25 @@ const MovieList = ({
           <MovieError />
         ) : movies?.movies && movies.movies.length > 0 ? (
           movies?.movies?.map((movie) => {
+            const dynamicSlug =
+              movie.id && movie.slug
+                ? `${movie.slug}-${movie.id}`
+                : `${movie.id}`;
+
             return (
-              <MovieCard
-                key={movie.id}
-                movieId={movie.id}
-                coverImage={movie.medium_cover_image}
-                genres={movie.genres}
-                rating={movie.rating}
-                title={movie.title}
-                year={movie.year}
-                slug={movie.slug}
-              />
+              <Link
+                href={`/movies/${dynamicSlug}`}
+                className=" w-full border border-gray-100 rounded-sm"
+              >
+                <MovieCard
+                  key={movie.id}
+                  coverImage={movie.medium_cover_image}
+                  genres={movie.genres}
+                  rating={movie.rating}
+                  title={movie.title}
+                  year={movie.year}
+                />
+              </Link>
             );
           })
         ) : (
