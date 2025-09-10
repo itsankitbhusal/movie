@@ -50,6 +50,8 @@ const MovieList = ({
 
   const [localPage, setLocalPage] = useState(Number(page) || 1);
 
+  const initialSearch = searchParams.get("query_term") || "";
+
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
     const formValues = new FormData(e.target as HTMLFormElement);
@@ -93,7 +95,7 @@ const MovieList = ({
 
   return (
     <div className=" max-w-[1400px] mx-auto px-[1rem]">
-      <MovieSearch onSearch={handleSearch} />
+      <MovieSearch onSearch={handleSearch} initialValue={initialSearch} />
       <div className=" grid grid-cols-1 place-items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[1.8rem] min-h-[100vh]">
         {moviesLoading ? (
           <MovieLoading />

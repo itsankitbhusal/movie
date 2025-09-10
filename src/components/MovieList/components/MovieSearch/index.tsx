@@ -1,10 +1,20 @@
-import React, { FormEvent } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 interface IProps {
   onSearch: (e: FormEvent) => void;
+  initialValue?: string;
 }
 
-const MovieSearch = ({ onSearch }: IProps) => {
+const MovieSearch = ({ onSearch, initialValue }: IProps) => {
+  const [searchTerm, setSearchTerm] = useState(initialValue || "");
+
+  useEffect(() => {
+    setSearchTerm(initialValue || "");
+  }, [initialValue]);
+
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  }
   return (
     <form
       onSubmit={onSearch}
@@ -13,6 +23,8 @@ const MovieSearch = ({ onSearch }: IProps) => {
       <input
         type="text"
         name="movie-search"
+        value={searchTerm}
+        onChange={handleSearchChange}
         placeholder="Search Movie"
         className=" my-[.6rem] sm:my-[1rem] border rounded-sm border-gray-200 px-[.6rem] sm:px-[1rem] py-[.3rem] sm:py-[.8rem] w-full sm:w-auto"
       />
