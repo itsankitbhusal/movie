@@ -1,4 +1,3 @@
-
 export interface IPageParams {
   limit?: number;
   page?: number;
@@ -30,12 +29,14 @@ export interface IMovieListResponse {
   status: string;
   status_message: string;
   data: IMovieList;
-  "@meta": {
-    server_time: number;
-    server_timezone: string;
-    api_version: number;
-    execution_time: string;
-  };
+  "@meta": IMeta;
+}
+
+export interface IMeta {
+  server_time: number;
+  server_timezone: string;
+  api_version: number;
+  execution_time: string;
 }
 
 export interface IMovie {
@@ -50,9 +51,10 @@ export interface IMovie {
   rating: number;
   runtime: number;
   genres: string[];
-  summary: string;
+  summary?: string;
+  description_intro?: string;
   description_full: string;
-  synopsis: string;
+  synopsis?: string;
   yt_trailer_code: string;
   language: string;
   mpa_rating: string;
@@ -61,7 +63,10 @@ export interface IMovie {
   small_cover_image: string;
   medium_cover_image: string;
   large_cover_image: string;
-  state: string;
+  state?: string;
+  like_count?: number;
+  date_uploaded?: string;
+  date_uploaded_unix?: number;
   torrents: ITorrent[];
 }
 
@@ -80,4 +85,13 @@ export interface ITorrent {
   size_bytes: number;
   date_uploaded: string;
   date_uploaded_unix: number;
+}
+
+export interface IMovieDetailResponse {
+  status: string;
+  status_message: string;
+  data: {
+    movie: IMovie;
+  };
+  "@meta": IMeta;
 }

@@ -106,6 +106,7 @@ const MovieList = ({
             return (
               <MovieCard
                 key={movie.id}
+                movieId={movie.id}
                 coverImage={movie.medium_cover_image}
                 genres={movie.genres}
                 rating={movie.rating}

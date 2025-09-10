@@ -1,5 +1,9 @@
 import { apiUrls } from "@/constants/apiUrls";
-import { IMovieList, IPageParams } from "@/resources/Movies/interface";
+import {
+  IMovieDetailResponse,
+  IMovieList,
+  IPageParams,
+} from "@/resources/Movies/interface";
 import fetchWrapper from "@/utils/fetchWrapper";
 
 export const getMovies = async (
@@ -28,4 +32,20 @@ export const getMovies = async (
   );
 
   return response?.data;
+};
+
+export const getMovieDetail = async (
+  id: string
+): Promise<IMovieDetailResponse> => {
+  if (!id) {
+    throw new Error("Movie id not provided");
+  }
+  const params = new URLSearchParams();
+
+  params.append("movie_id", id);
+  const response = await fetchWrapper(
+    `${apiUrls.Movies.getMovieDetail}?${params.toString()}`
+  );
+
+  return response;
 };
