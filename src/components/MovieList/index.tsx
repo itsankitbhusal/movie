@@ -121,6 +121,7 @@ const MovieList = ({
                   rating={movie.rating}
                   title={movie.title}
                   year={movie.year}
+                  movieId={movie.id}
                 />
               </Link>
             );

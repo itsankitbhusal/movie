@@ -1,5 +1,7 @@
 "use client";
 import AppImage from "@/components/AppImage";
+import { MouseEvent } from "react";
+import { useLocalStorage } from "@uidotdev/usehooks";
 
 interface IProps {
   title?: string;
@@ -8,6 +10,7 @@ interface IProps {
   coverImage?: string;
   rating?: number;
   isDetailPage?: boolean;
+  movieId?: number | string;
 }
 
 const MovieCard = ({
@@ -17,7 +20,33 @@ const MovieCard = ({
   title,
   year,
   isDetailPage,
+  movieId,
 }: IProps) => {
+  const [fav, setFav] = useLocalStorage("fav", "[]");
+
+  const handleFavoriteClick = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (!movieId) return null;
+
+    setFav((prevFav: string) => {
+      const currentFavs = JSON.parse(prevFav || "[]");
+
+      if (currentFavs.includes(movieId.toString())) {
+        return JSON.stringify(
+          currentFavs.filter((id: string) => id !== movieId.toString())
+        );
+      } else {
+        return JSON.stringify([...currentFavs, movieId.toString()]);
+      }
+    });
+  };
+
+  const favorite = movieId
+    ? JSON.parse(fav).includes(movieId.toString())
+    : false;
+
   return (
     <div className=" w-full  sm:max-w-[20rem] ">
       <div className=" w-full relative ">
@@ -55,9 +84,28 @@ const MovieCard = ({
           )}
         </div>
         {isDetailPage ? null : (
-          <div className=" p-2 flex flex-col gap-1">
-            <h3 className=" font-bold line-clamp-1">{title}</h3>
-            <p className=" text-gray-600 text-sm">{year}</p>
+          <div className=" flex gap-[.6rem] justify-between items-center">
+            <div className=" p-2 flex flex-col gap-1">
+              <h3 className=" font-bold line-clamp-1">{title}</h3>
+              <p className=" text-gray-600 text-sm">{year}</p>
+            </div>
+            {favorite ? (
+              <div
+                className=" p-2"
+                title="Remove from favorite"
+                onClick={handleFavoriteClick}
+              >
+                ❤️
+              </div>
+            ) : (
+              <div
+                className=" p-2"
+                title="Toggle favorite"
+                onClick={handleFavoriteClick}
+              >
+                🩶
+              </div>
+            )}
           </div>
         )}
       </div>
